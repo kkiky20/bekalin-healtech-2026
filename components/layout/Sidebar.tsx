@@ -99,9 +99,7 @@ export function Sidebar({ isMobileOpen, onMobileClose }: SidebarProps) {
         <div className="h-16 flex items-center justify-between px-4 border-b border-border">
           {(!isCollapsed) && (
             <div className="flex items-center gap-2 overflow-hidden">
-              <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                <HeartPulse className="w-5 h-5 text-primary" />
-              </div>
+              <img src="/logo-transparent.png" alt="BEKALIN Logo" className="w-8 h-8 object-contain shrink-0 drop-shadow-sm" />
               <div className="flex flex-col">
                 <span className="font-bold tracking-tight leading-none">BEKALIN<span className="text-primary">.</span></span>
                 <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">Clinical Supply</span>
@@ -110,9 +108,7 @@ export function Sidebar({ isMobileOpen, onMobileClose }: SidebarProps) {
           )}
           {isCollapsed && (
             <div className="w-full flex justify-center">
-              <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
-                <HeartPulse className="w-5 h-5 text-primary" />
-              </div>
+              <img src="/logo-transparent.png" alt="BEKALIN Logo" className="w-8 h-8 object-contain drop-shadow-sm" />
             </div>
           )}
           
@@ -163,9 +159,7 @@ export function Sidebar({ isMobileOpen, onMobileClose }: SidebarProps) {
       <aside className={mobileClasses}>
         <div className="h-16 flex items-center px-6 border-b border-border">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-              <HeartPulse className="w-5 h-5 text-primary" />
-            </div>
+            <img src="/logo-transparent.png" alt="BEKALIN Logo" className="w-8 h-8 object-contain shrink-0 drop-shadow-sm" />
             <div className="flex flex-col">
               <span className="font-bold tracking-tight leading-none text-lg">BEKALIN<span className="text-primary">.</span></span>
             </div>

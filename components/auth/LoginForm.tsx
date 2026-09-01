@@ -79,11 +79,13 @@ export function LoginForm() {
   return (
     <div className="w-full max-w-[440px] mx-auto flex flex-col justify-center animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="mb-10">
-        <div className="flex items-center gap-2 mb-8">
-          <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
-            <span className="text-primary font-black text-sm">B</span>
-          </div>
-          <span className="font-bold tracking-tight">BEKALIN<span className="text-primary">.</span></span>
+        <div className="flex items-center gap-3 mb-8">
+          <img 
+            src="/logo-transparent.png" 
+            alt="BEKALIN Logo" 
+            className="h-10 w-auto object-contain drop-shadow-sm"
+          />
+          <span className="font-black text-2xl tracking-tighter">BEKALIN<span className="text-primary">.</span></span>
         </div>
         <h2 className="text-3xl font-black text-foreground mb-2 tracking-tight">Hallo! Selamat Datang</h2>
         <p className="text-muted-foreground font-medium">Masuk untuk melanjutkan ke dashboard BEKALIN</p>

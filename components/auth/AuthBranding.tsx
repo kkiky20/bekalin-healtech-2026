@@ -40,9 +40,7 @@ export function AuthBranding() {
         <div className="p-6 rounded-3xl bg-background/80 backdrop-blur-xl border border-border/50 shadow-2xl relative overflow-hidden flex flex-col gap-4 max-w-md">
           <div className="flex items-center justify-between border-b border-border/50 pb-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Activity className="w-5 h-5 text-primary" />
-              </div>
+              <img src="/logo-transparent.png" alt="BEKALIN System" className="w-10 h-10 object-contain drop-shadow-sm" />
               <div>
                 <div className="text-sm font-bold text-foreground">BEKALIN System</div>
                 <div className="text-xs text-muted-foreground font-medium">Status: Active & Encrypted</div>
