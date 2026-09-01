@@ -58,7 +58,7 @@ export function RequestTrendChart({ data }: RequestTrendChartProps) {
           <Tooltip 
             contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
             labelFormatter={(label) => formatXAxis(label as string)}
-            formatter={(value: number) => [value, 'Request']}
+            formatter={(value: any) => [value, 'Request']}
           />
           <Line 
             type="monotone" 

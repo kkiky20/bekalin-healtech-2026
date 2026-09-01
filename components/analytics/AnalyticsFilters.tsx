@@ -40,7 +40,7 @@ function AnalyticsFiltersContent() {
           </label>
           <Select 
             value={searchParams.get("range") || "7d"} 
-            onValueChange={(val) => router.push(pathname + "?" + createQueryString("range", val))}
+            onValueChange={(val: string | null) => router.push(pathname + "?" + createQueryString("range", val || ""))}
           >
             <SelectTrigger className="w-full h-9">
               <SelectValue placeholder="Pilih Periode" />
@@ -61,7 +61,7 @@ function AnalyticsFiltersContent() {
           </label>
           <Select 
             value={searchParams.get("unit") || "all"} 
-            onValueChange={(val) => router.push(pathname + "?" + createQueryString("unit", val === "all" ? "" : val))}
+            onValueChange={(val: string | null) => router.push(pathname + "?" + createQueryString("unit", val === "all" ? "" : (val || "")))}
           >
             <SelectTrigger className="w-full h-9">
               <SelectValue placeholder="Semua Unit" />
@@ -83,7 +83,7 @@ function AnalyticsFiltersContent() {
           </label>
           <Select 
             value={searchParams.get("category") || "all"} 
-            onValueChange={(val) => router.push(pathname + "?" + createQueryString("category", val === "all" ? "" : val))}
+            onValueChange={(val: string | null) => router.push(pathname + "?" + createQueryString("category", val === "all" ? "" : (val || "")))}
           >
             <SelectTrigger className="w-full h-9">
               <SelectValue placeholder="Semua Kategori" />

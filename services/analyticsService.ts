@@ -22,7 +22,7 @@ const isWithinDateRange = (dateStr: string, from?: string, to?: string) => {
 };
 
 export const getStockHealth = (filter?: AnalyticsFilter): StockHealthMetric => {
-  const stock = useStockStore.getState().items;
+  const stock = useStockStore.getState().stockItems;
   let safe = 0;
   let low = 0;
   let critical = 0;
@@ -57,7 +57,7 @@ export const getStockHealth = (filter?: AnalyticsFilter): StockHealthMetric => {
 };
 
 export const getTopLowStockItems = (filter?: AnalyticsFilter) => {
-  const stock = useStockStore.getState().items;
+  const stock = useStockStore.getState().stockItems;
   const filteredStock = stock.filter(item => {
     if (filter?.categoryId && item.category !== filter.categoryId) return false;
     return true;
@@ -176,7 +176,7 @@ export const getFulfillmentRate = (filter?: AnalyticsFilter): FulfillmentMetric 
 };
 
 export const getDistributionStats = (filter?: AnalyticsFilter): DistributionMetric => {
-  const redistributions = useRedistributionStore.getState().records;
+  const redistributions = useRedistributionStore.getState().redistributions;
   
   let total = 0;
   let processing = 0;
@@ -211,7 +211,7 @@ export const getDistributionStats = (filter?: AnalyticsFilter): DistributionMetr
 };
 
 export const getDistributionTrend = (filter?: AnalyticsFilter) => {
-  const redistributions = useRedistributionStore.getState().records;
+  const redistributions = useRedistributionStore.getState().redistributions;
   const trendMap = new Map<string, number>();
 
   redistributions.forEach(rd => {
