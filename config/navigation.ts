@@ -58,10 +58,10 @@ export const navigationConfig: NavigationItem[] = [
     allowedRoles: ["ADMIN_GUDANG", "ADMIN_CSSD", "PERAWAT", "MANAJER"],
   },
   {
-    label: "Dashboard Manajemen",
-    href: "/manajemen",
+    label: "Laporan & Analitik",
+    href: "/laporan",
     icon: ChartNoAxesCombined,
-    allowedRoles: ["MANAJER"],
+    allowedRoles: ["ADMIN_GUDANG", "MANAJER"],
   },
 ];
 

@@ -33,7 +33,7 @@ export function NotificationBell() {
   }, [userNotifications, tab]);
 
   const handleMarkAll = () => {
-    if (user) markAllAsRead(user.role, user.unit);
+    if (user) markAllAsRead(user.role);
   };
 
   useEffect(() => {

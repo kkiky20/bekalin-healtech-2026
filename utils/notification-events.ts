@@ -1,86 +1,130 @@
-import { notificationService } from "@/services/notificationService";
+import { notificationService } from '@/services/notificationService';
 
-export function notifyRequestCreated(requestId: string, unitName: string) {
-  notificationService.createNotification({
-    targetRoles: ["ADMIN_GUDANG"],
-    type: "REQUEST",
-    priority: "HIGH",
-    title: "Permintaan Baru",
-    description: `Unit ${unitName} mengajukan permintaan logistik baru.`,
-    targetUrl: `/persetujuan/${requestId}`,
-    referenceId: requestId
-  });
-}
+export const notificationEvents = {
+  notifyRequestCreated(requestId: string, unit: string) {
+    notificationService.createNotification({
+      userId: null,
+      targetRoles: ['ADMIN_GUDANG'],
+      type: 'REQUEST',
+      priority: 'MEDIUM',
+      title: 'Permintaan Baru',
+      description: `Permintaan ${requestId} dari ${unit} menunggu validasi.`,
+      targetUrl: `/permintaan/${requestId}`,
+      referenceType: 'REQUEST',
+      referenceId: requestId
+    });
+  },
 
-export function notifyApprovalRequired(requestId: string) {
-  notificationService.createNotification({
-    targetRoles: ["MANAJER"],
-    type: "APPROVAL",
-    priority: "HIGH",
-    title: "Menunggu Persetujuan",
-    description: `Permintaan ${requestId} telah tervalidasi dan menunggu persetujuan Anda.`,
-    targetUrl: `/persetujuan/${requestId}`,
-    referenceId: requestId
-  });
-}
+  notifyRequestValidated(requestId: string) {
+    notificationService.createNotification({
+      userId: null,
+      targetRoles: ['PERAWAT'],
+      type: 'REQUEST',
+      priority: 'INFO',
+      title: 'Permintaan Divalidasi',
+      description: `Permintaan ${requestId} telah divalidasi.`,
+      targetUrl: `/permintaan/${requestId}`,
+      referenceType: 'REQUEST',
+      referenceId: requestId
+    });
+  },
 
-export function notifyRequestApproved(requestId: string, unitName: string) {
-  notificationService.createNotification({
-    targetRoles: ["ADMIN_GUDANG"],
-    type: "REDISTRIBUTION",
-    priority: "MEDIUM",
-    title: "Permintaan Disetujui",
-    description: `Permintaan ${requestId} telah disetujui. Siap dialokasikan.`,
-    targetUrl: `/redistribusi/baru?request=${requestId}`,
-    referenceId: requestId
-  });
-  // Also notify the unit that their request is approved
-  notificationService.createNotification({
-    targetRoles: ["PERAWAT"],
-    targetUnitId: unitName,
-    type: "SYSTEM",
-    priority: "INFO",
-    title: "Permintaan Disetujui",
-    description: `Permintaan logistik Anda telah disetujui Manajer.`,
-    targetUrl: `/permintaan/${requestId}`,
-    referenceId: requestId
-  });
-}
+  notifyApprovalRequired(requestId: string) {
+    notificationService.createNotification({
+      userId: null,
+      targetRoles: ['MANAJER'],
+      type: 'APPROVAL',
+      priority: 'HIGH',
+      title: 'Menunggu Persetujuan',
+      description: `Permintaan ${requestId} membutuhkan persetujuan Anda.`,
+      targetUrl: `/persetujuan/${requestId}`,
+      referenceType: 'REQUEST',
+      referenceId: requestId
+    });
+  },
 
-export function notifyDistributionDispatched(distributionId: string, destinationUnit: string) {
-  notificationService.createNotification({
-    targetRoles: ["PERAWAT"],
-    targetUnitId: destinationUnit,
-    type: "DISTRIBUTION",
-    priority: "INFO",
-    title: "Pengiriman Dimulai",
-    description: `Distribusi logistik sedang dalam perjalanan menuju unit Anda.`,
-    targetUrl: `/distribusi/${distributionId}`,
-    referenceId: distributionId
-  });
-}
+  notifyRequestApproved(requestId: string) {
+    notificationService.createNotification({
+      userId: null,
+      targetRoles: ['ADMIN_GUDANG', 'PERAWAT'],
+      type: 'APPROVAL',
+      priority: 'INFO',
+      title: 'Permintaan Disetujui',
+      description: `Permintaan ${requestId} telah disetujui.`,
+      targetUrl: `/permintaan/${requestId}`,
+      referenceType: 'REQUEST',
+      referenceId: requestId
+    });
+  },
 
-export function notifyDiscrepancy(distributionId: string, destinationUnit: string) {
-  notificationService.createNotification({
-    targetRoles: ["ADMIN_GUDANG", "MANAJER"],
-    type: "DISCREPANCY",
-    priority: "HIGH",
-    title: "Selisih Penerimaan",
-    description: `Terdapat selisih/catatan pada penerimaan barang di ${destinationUnit}.`,
-    targetUrl: `/distribusi/${distributionId}`,
-    referenceId: distributionId
-  });
-}
+  notifyRedistributionCreated(redistributionId: string) {
+    notificationService.createNotification({
+      userId: null,
+      targetRoles: ['ADMIN_GUDANG', 'PERAWAT'],
+      type: 'REDISTRIBUTION',
+      priority: 'INFO',
+      title: 'Redistribusi Dibuat',
+      description: `Redistribusi ${redistributionId} telah berhasil dibuat.`,
+      targetUrl: `/redistribusi/${redistributionId}`,
+      referenceType: 'REDISTRIBUTION',
+      referenceId: redistributionId
+    });
+  },
 
-export function notifyCriticalStock(itemId: string, itemName: string, unitName: string, remaining: number, threshold: number) {
-  notificationService.createNotification({
-    targetRoles: ["ADMIN_GUDANG", "MANAJER"],
-    type: "STOCK_ALERT",
-    priority: "CRITICAL",
-    title: "Stok Kritis",
-    description: `Stok ${itemName} di ${unitName} berada di bawah batas kritis (Sisa ${remaining} / Batas ${threshold}).`,
-    targetUrl: `/monitoring-stok/${itemId}`,
-    referenceId: itemId,
-    dedupKey: `STOCK_ALERT:${itemId}:CRITICAL`
-  });
-}
+  notifyDistributionDispatched(distributionId: string, destinationUnit: string) {
+    notificationService.createNotification({
+      userId: null,
+      targetRoles: ['PERAWAT'], // Assuming destination unit role
+      type: 'DISTRIBUTION',
+      priority: 'INFO',
+      title: 'Distribusi Dikirim',
+      description: `Distribusi ${distributionId} sedang dalam pengiriman ke ${destinationUnit}.`,
+      targetUrl: `/distribusi/${distributionId}`,
+      referenceType: 'DISTRIBUTION',
+      referenceId: distributionId
+    });
+  },
+
+  notifyReceivingRequired(distributionId: string) {
+    notificationService.createNotification({
+      userId: null,
+      targetRoles: ['PERAWAT'],
+      type: 'RECEIVING',
+      priority: 'MEDIUM',
+      title: 'Menunggu Penerimaan',
+      description: `Distribusi ${distributionId} telah tiba dan menunggu konfirmasi.`,
+      targetUrl: `/distribusi/${distributionId}`,
+      referenceType: 'DISTRIBUTION',
+      referenceId: distributionId
+    });
+  },
+
+  notifyDiscrepancy(distributionId: string, discrepancyCount: number) {
+    notificationService.createNotification({
+      userId: null,
+      targetRoles: ['ADMIN_GUDANG', 'MANAJER'],
+      type: 'DISCREPANCY',
+      priority: 'HIGH',
+      title: 'Selisih Penerimaan',
+      description: `Terdapat selisih ${discrepancyCount} item pada penerimaan ${distributionId}.`,
+      targetUrl: `/distribusi/${distributionId}`,
+      referenceType: 'DISTRIBUTION',
+      referenceId: distributionId
+    });
+  },
+
+  notifyCriticalStock(stockItemId: string, itemName: string, unit: string, currentStock: number, threshold: number) {
+    // Deduplication strategy would be implemented here or in store/service
+    notificationService.createNotification({
+      userId: null,
+      targetRoles: ['ADMIN_GUDANG', 'MANAJER'],
+      type: 'STOCK_ALERT',
+      priority: 'CRITICAL',
+      title: 'Stok Kritis',
+      description: `${itemName} di ${unit} berada di bawah batas kritis (Sisa: ${currentStock}).`,
+      targetUrl: `/monitoring-stok/${stockItemId}`,
+      referenceType: 'STOCK',
+      referenceId: stockItemId
+    });
+  }
+};

@@ -5,6 +5,7 @@ import { MetricCard } from "@/components/dashboard/MetricCard";
 import { DashboardChart } from "@/components/dashboard/DashboardChart";
 import { PriorityQueue } from "@/components/dashboard/PriorityQueue";
 import { SmartInsight } from "@/components/dashboard/SmartInsight";
+import { DashboardAlerts } from "@/components/dashboard/DashboardAlerts";
 import { manajerMetrics, manajerChartData, manajerIssues, manajerInsights, manajerSummary } from "@/mock/dashboard/manajer";
 import { Activity, CheckCircle, FileText, TrendingUp, Filter } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -34,6 +35,8 @@ export function ManajerDashboard() {
           </Button>
         </div>
       </div>
+      
+      <DashboardAlerts />
 
       {/* Smart Insight (Executive Overview) */}
       <SmartInsight insights={manajerInsights} className="shadow-sm" />

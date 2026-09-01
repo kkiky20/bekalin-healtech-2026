@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useCallback } from "react";
-import { Calendar, Building, Package } from "lucide-react";
+import { Calendar, Building, Package, Filter, X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -30,22 +30,26 @@ function AnalyticsFiltersContent() {
     [searchParams]
   );
 
+  const hasActiveFilters = searchParams.get("unit") || searchParams.get("category") || (searchParams.get("range") && searchParams.get("range") !== "7d");
+
   return (
-    <div className="flex flex-col sm:flex-row gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
-      <div className="flex-1 flex flex-col sm:flex-row gap-4">
-        <div className="space-y-1.5 flex-1">
-          <label className="text-xs font-medium text-slate-500 flex items-center gap-1.5">
-            <Calendar className="w-3.5 h-3.5" />
-            Periode
-          </label>
+    <div className="flex flex-col lg:flex-row lg:items-center gap-3 bg-white p-2 rounded-2xl border border-slate-200/60 shadow-sm mb-6">
+      <div className="flex items-center px-3 py-1.5 border-r border-slate-100 hidden lg:flex text-slate-400">
+        <Filter className="w-4 h-4 mr-2" />
+        <span className="text-xs font-semibold uppercase tracking-wider">Filter</span>
+      </div>
+      
+      <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <div className="relative group">
           <Select 
             value={searchParams.get("range") || "7d"} 
             onValueChange={(val: string | null) => router.push(pathname + "?" + createQueryString("range", val || ""))}
           >
-            <SelectTrigger className="w-full h-9">
+            <SelectTrigger className="w-full h-10 bg-slate-50/50 border-transparent hover:border-slate-200 hover:bg-white transition-all rounded-xl pl-9 font-medium text-slate-700">
+              <Calendar className="w-4 h-4 text-slate-400 absolute left-3" />
               <SelectValue placeholder="Pilih Periode" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="rounded-xl">
               <SelectItem value="today">Hari Ini</SelectItem>
               <SelectItem value="7d">7 Hari Terakhir</SelectItem>
               <SelectItem value="30d">30 Hari</SelectItem>
@@ -54,19 +58,16 @@ function AnalyticsFiltersContent() {
           </Select>
         </div>
 
-        <div className="space-y-1.5 flex-1">
-          <label className="text-xs font-medium text-slate-500 flex items-center gap-1.5">
-            <Building className="w-3.5 h-3.5" />
-            Unit
-          </label>
+        <div className="relative group">
           <Select 
             value={searchParams.get("unit") || "all"} 
             onValueChange={(val: string | null) => router.push(pathname + "?" + createQueryString("unit", val === "all" ? "" : (val || "")))}
           >
-            <SelectTrigger className="w-full h-9">
+            <SelectTrigger className="w-full h-10 bg-slate-50/50 border-transparent hover:border-slate-200 hover:bg-white transition-all rounded-xl pl-9 font-medium text-slate-700">
+              <Building className="w-4 h-4 text-slate-400 absolute left-3" />
               <SelectValue placeholder="Semua Unit" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="rounded-xl">
               <SelectItem value="all">Semua Unit</SelectItem>
               <SelectItem value="IGD">IGD</SelectItem>
               <SelectItem value="ICU">ICU</SelectItem>
@@ -76,19 +77,16 @@ function AnalyticsFiltersContent() {
           </Select>
         </div>
 
-        <div className="space-y-1.5 flex-1">
-          <label className="text-xs font-medium text-slate-500 flex items-center gap-1.5">
-            <Package className="w-3.5 h-3.5" />
-            Kategori
-          </label>
+        <div className="relative group">
           <Select 
             value={searchParams.get("category") || "all"} 
             onValueChange={(val: string | null) => router.push(pathname + "?" + createQueryString("category", val === "all" ? "" : (val || "")))}
           >
-            <SelectTrigger className="w-full h-9">
+            <SelectTrigger className="w-full h-10 bg-slate-50/50 border-transparent hover:border-slate-200 hover:bg-white transition-all rounded-xl pl-9 font-medium text-slate-700">
+              <Package className="w-4 h-4 text-slate-400 absolute left-3" />
               <SelectValue placeholder="Semua Kategori" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="rounded-xl">
               <SelectItem value="all">Semua Kategori</SelectItem>
               <SelectItem value="Obat">Obat</SelectItem>
               <SelectItem value="Alat Kesehatan">Alat Kesehatan</SelectItem>
@@ -97,22 +95,24 @@ function AnalyticsFiltersContent() {
           </Select>
         </div>
       </div>
-      <div className="flex items-end">
+
+      {hasActiveFilters && (
         <Button 
-          variant="outline" 
-          className="h-9 w-full sm:w-auto"
+          variant="ghost" 
+          className="h-10 px-4 text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-xl font-semibold"
           onClick={() => router.push(pathname)}
         >
+          <X className="w-4 h-4 mr-1.5" />
           Reset
         </Button>
-      </div>
+      )}
     </div>
   );
 }
 
 export function AnalyticsFilters() {
   return (
-    <Suspense fallback={<div className="h-[84px] bg-slate-100 animate-pulse rounded-xl mb-6"></div>}>
+    <Suspense fallback={<div className="h-[56px] bg-slate-100 animate-pulse rounded-2xl mb-6 border border-slate-200/50"></div>}>
       <AnalyticsFiltersContent />
     </Suspense>
   );

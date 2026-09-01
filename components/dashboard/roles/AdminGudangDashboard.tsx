@@ -6,6 +6,7 @@ import { DashboardChart } from "@/components/dashboard/DashboardChart";
 import { AlertPanel } from "@/components/dashboard/AlertPanel";
 import { PriorityQueue } from "@/components/dashboard/PriorityQueue";
 import { ActivityList } from "@/components/dashboard/ActivityList";
+import { DashboardAlerts } from "@/components/dashboard/DashboardAlerts";
 import { gudangMetrics, gudangChartData, gudangAlerts, gudangQueue, gudangActivities } from "@/mock/dashboard/admin-gudang";
 import { Package, AlertTriangle, AlertCircle, ArrowDownToLine, Plus, Search, Repeat2, Truck } from "lucide-react";
 import Link from "next/link";
@@ -36,6 +37,7 @@ export function AdminGudangDashboard() {
           {dateStr}
         </div>
       </div>
+      <DashboardAlerts />
 
       {/* KPI Section */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">

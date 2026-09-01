@@ -1,18 +1,32 @@
-import { AppNotification } from "@/types/notification";
-import { useNotificationStore } from "@/store/useNotificationStore";
-
-function generateId() {
-  return `notif-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
-}
+import { useNotificationStore } from '@/store/useNotificationStore';
+import { AppNotification, NotificationType, NotificationPriority } from '@/types/notification';
 
 export const notificationService = {
-  createNotification: (data: Omit<AppNotification, "id" | "isRead" | "createdAt">) => {
-    const { addNotification } = useNotificationStore.getState();
-    addNotification({
-      id: generateId(),
-      ...data,
-      isRead: false,
-      createdAt: new Date().toISOString()
+  createNotification(data: Omit<AppNotification, 'id' | 'createdAt' | 'isRead'>) {
+    useNotificationStore.getState().addNotification(data);
+  },
+
+  createNotifications(items: Omit<AppNotification, 'id' | 'createdAt' | 'isRead'>[]) {
+    items.forEach(item => {
+      useNotificationStore.getState().addNotification(item);
     });
+  },
+
+  markAsRead(id: string) {
+    useNotificationStore.getState().markAsRead(id);
+  },
+
+  markAllAsRead(role?: string) {
+    useNotificationStore.getState().markAllAsRead(role);
+  },
+
+  getUnreadCount(role?: string) {
+    return useNotificationStore.getState().getUnreadCount(role);
+  },
+
+  getNotificationsForUser(role?: string) {
+    const notifications = useNotificationStore.getState().notifications;
+    if (!role) return notifications;
+    return notifications.filter(n => !n.targetRoles || n.targetRoles.includes(role));
   }
 };

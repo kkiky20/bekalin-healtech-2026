@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { MetricCard } from "@/components/dashboard/MetricCard";
 import { PriorityQueue } from "@/components/dashboard/PriorityQueue";
 import { ActivityList } from "@/components/dashboard/ActivityList";
+import { DashboardAlerts } from "@/components/dashboard/DashboardAlerts";
 import { perawatMetrics, perawatRequests, perawatActivities } from "@/mock/dashboard/perawat";
 import { ClipboardList, Clock, RefreshCcw, CheckCircle2, Plus, FileText, Truck } from "lucide-react";
 import Link from "next/link";
@@ -32,6 +33,8 @@ export function PerawatDashboard() {
           Unit: {user?.unit}
         </div>
       </div>
+      
+      <DashboardAlerts />
 
       {/* Primary Action Callout */}
       <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-background border border-primary/20 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
